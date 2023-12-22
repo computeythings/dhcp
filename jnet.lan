@@ -1,0 +1,86 @@
+# This is a very basic subnet declaration.
+# DEFAULT
+subnet 10.81.1.0 netmask 255.255.255.0 {
+  range 10.81.1.100 10.81.1.200;
+  option routers 10.81.1.1;
+  option broadcast-address 10.81.1.255;
+  next-server 10.81.11.10;               # Change this to the address of your DHCP server
+  if exists user-class and ( option user-class = "iPXE" ) {
+    filename "http://pxe.jnet.lan/menu.ipxe";
+  } elsif option arch = encode-int ( 16, 16 ) {
+    filename "http://pxe.jnet.lan/ipxe/netboot.xyz.efi";
+    option vendor-class-identifier "HTTPClient";
+  } elsif option arch = 00:07 {
+    filename "netboot.xyz.efi";
+  } else {
+    filename "netboot.xyz.kpxe";
+  }
+}
+
+# ADMIN
+subnet 10.81.5.0 netmask 255.255.255.224 {
+  range 10.81.5.2 10.81.5.30;
+  option routers 10.81.5.1;
+  option broadcast-address 10.81.5.31;
+}
+
+# IPMI
+subnet 10.81.9.0 netmask 255.255.255.224 {
+  range 10.81.9.2 10.81.9.30;
+  option routers 10.81.9.1;
+  option broadcast-address 10.81.9.31;
+}
+
+# MGMT
+subnet 10.81.10.0 netmask 255.255.255.128 {
+  range 10.81.10.100 10.81.10.126;
+  option routers 10.81.10.1;
+  option broadcast-address 10.81.10.127;
+}
+
+host uap {
+  hardware ethernet e0:63:da:23:f6:a9;
+  fixed-address 10.81.10.20;
+}
+
+host switch.calleah {
+  hardware ethernet 5c:52:1e:ed:81:ab;
+  fixed-address 10.81.101.28;
+}
+# DOCKER
+subnet 10.81.11.0 netmask 255.255.255.128 {
+  range 10.81.11.2 10.81.11.126;
+  option routers 10.81.11.1;
+  option broadcast-address 10.81.11.127;
+}
+
+# MEDIA
+subnet 10.81.50.0 netmask 255.255.255.0 {
+  range 10.81.50.200 10.81.50.254;
+  option routers 10.81.50.1;
+  option broadcast-address 10.81.50.255;
+}
+
+# GUEST
+subnet 10.81.99.0 netmask 255.255.255.0 {
+  range 10.81.99.2 10.81.99.254;
+  option routers 10.81.99.1;
+  option broadcast-address 10.81.99.255;
+}
+
+# IOT
+subnet 10.81.101.0 netmask 255.255.255.224 {
+  range 10.81.101.2 10.81.101.30;
+  option routers 10.81.101.1;
+  option broadcast-address 10.81.101.31;
+}
+
+# DANGERZONE
+subnet 192.168.102.0 netmask 255.255.255.0 {
+  range 192.168.102.2 192.168.102.10;
+  option routers 192.168.102.1;
+  option broadcast-address 192.168.102.255;
+  option domain-name "danger.zone";
+  option domain-name-servers 1.1.1.1, 9.9.9.9;
+  unset domain-search;
+}
