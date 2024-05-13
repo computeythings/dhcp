@@ -60,11 +60,13 @@ subnet 10.1.140.0 netmask 255.255.255.0 {
   option broadcast-address 10.1.140.255;
 }
 
+option vendor-encapsulated-options code 43 = string;
 # WIRELESS
 subnet 10.1.150.0 netmask 255.255.255.0 {
   range 10.1.150.2 10.1.150.30;
   option routers 10.1.150.1;
   option broadcast-address 10.1.150.255;
+  option vendor-encapsulated-options 01:04:0a:65:0a:03;
 }
 
 # DMZ
